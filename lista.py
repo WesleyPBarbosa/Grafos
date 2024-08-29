@@ -1,20 +1,20 @@
 class Grafo:
-    def __init__(self, num_vertices):
-        self.num_vertices = num_vertices
-        self.lista_adjacencia = [[] for _ in range(num_vertices)]
+    def __init__(lista, num_vertices):
+        lista.num_vertices = num_vertices
+        lista.lista_adjacencia = [[] for _ in range(num_vertices)]
 
-    def adicionar_aresta(self, origem, destino):
-        self.lista_adjacencia[origem].append(destino)
-        self.lista_adjacencia[destino].append(origem)  # Para grafos não direcionados
+    def adicionar(lista, origem, destino):
+        lista.lista_adjacencia[origem].append(destino)
+        lista.lista_adjacencia[destino].append(origem)  # Para grafos não direcionados
 
-    def remover_aresta(self, origem, destino):
-        self.lista_adjacencia[origem].remove(destino)
-        self.lista_adjacencia[destino].remove(origem)  # Para grafos não direcionados
+    def remover(lista, origem, destino):
+        lista.lista_adjacencia[origem].remove(destino)
+        lista.lista_adjacencia[destino].remove(origem)  # Para grafos não direcionados
 
-    def imprimir_lista_adjacencia(self):
-        for i in range(self.num_vertices):
+    def imprimir_lista(lista):
+        for i in range(lista.num_vertices):
             print(f"{i}: ", end="")
-            print(" ".join(map(str, self.lista_adjacencia[i])))
+            print(" ".join(map(str, lista.lista_adjacencia[i])))
 
 # Exemplo de uso
 if __name__ == "__main__":
@@ -30,4 +30,4 @@ if __name__ == "__main__":
     g.adicionar_aresta(3, 4)
 
     print("Lista de Adjacência:")
-    g.imprimir_lista_adjacencia()
+    g.imprimir()

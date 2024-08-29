@@ -1,16 +1,10 @@
-class Grafo:
-    def __init__(self, num_vertices):
-        self.num_vertices = num_vertices
-        self.lista_adjacencia = [[] for _ in range(num_vertices)]
+from lista import Grafo
 
-    def adicionar_aresta(self, origem, destino):
-        self.lista_adjacencia[origem].append(destino)
-        self.lista_adjacencia[destino].append(origem)  # Para grafos não direcionados
-
-    def obter_arestas(self):
+class op:
+    def obter_arestas(vergrafo):
         arestas = []
-        for u in range(self.num_vertices):
-            for v in self.lista_adjacencia[u]:
+        for u in range(vergrafo.num_vertices):
+            for v in vergrafo.lista_adjacencia[u]:
                 if u < v:  # Para evitar duplicações (grafos não orientados)
                     arestas.append((u, v))
         return arestas
@@ -24,15 +18,19 @@ def produto_cartesiano(grafo1, grafo2):
 
     for u1 in range(num_vertices_grafo1):
         for u2 in range(num_vertices_grafo2):
+            vertice1 = u1 * num_vertices_grafo2 + u2
+            
+            # Verifica arestas no grafo1, mantendo u2 fixo
             for v1 in grafo1.lista_adjacencia[u1]:
-                vertice1 = u1 * num_vertices_grafo2 + u2
                 vertice2 = v1 * num_vertices_grafo2 + u2
-                grafo_resultante.adicionar_aresta(vertice1, vertice2)
+                if vertice2 not in grafo_resultante.lista_adjacencia[vertice1]:
+                    grafo_resultante.adicionar(vertice1, vertice2)
 
+            # Verifica arestas no grafo2, mantendo u1 fixo
             for v2 in grafo2.lista_adjacencia[u2]:
-                vertice1 = u1 * num_vertices_grafo2 + u2
                 vertice2 = u1 * num_vertices_grafo2 + v2
-                grafo_resultante.adicionar_aresta(vertice1, vertice2)
+                if vertice2 not in grafo_resultante.lista_adjacencia[vertice1]:
+                    grafo_resultante.adicionar(vertice1, vertice2)
 
     return grafo_resultante
 
@@ -45,12 +43,12 @@ def imprimir_grafo(grafo):
 if __name__ == "__main__":
     # Grafo 1
     g1 = Grafo(2)
-    g1.adicionar_aresta(0, 1)
+    g1.adicionar(0, 1)
 
     # Grafo 2
     g2 = Grafo(3)
-    g2.adicionar_aresta(0, 1)
-    g2.adicionar_aresta(1, 2)
+    g2.adicionar(0, 1)
+    g2.adicionar(1, 2)
 
     # Produto Cartesiano
     grafo_produto = produto_cartesiano(g1, g2)
